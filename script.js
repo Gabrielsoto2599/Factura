@@ -1,66 +1,62 @@
-
-
- class Cl_Articulo{
-    constructor(nombre, precio, cantidad){
-       this.nombre= nombre
-       this.precio= precio
-       this.cantidad= cantidad
+class Cl_Articulo {
+    constructor(nombre, precio, cantidad) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
     }
     
-    subtotalArticulo(){
-        let st=0
-    st= this.cantidad*this.precio
-    return st
-    }
-    
-}
-
- class Cl_Factura{
-    constructor(){
-    this.subtotalFactura=0
-    this.totalfacutaIVA=0
-    this.totalFact=0
-    this.acFactura=0
-    
-    }
-
-    procesarArticulo(a){
-    
-    this.subtotalFactura= this.acFactura
-    this.totalfacutaIVA= this.acFactura * 0,16 
-    this.totalFact= this.totalfacutaIVA
+    subtotalArticulo() {
+        return this.cantidad * this.precio;
     }
 }
+
+class Cl_Factura {
+    constructor() {
+        this.acSubtotal = 0;
+        this.ivaPorcentaje = 0.16; // Usar punto para decimales
+    }
+
+    procesarArticulo(a) {
+        // Sumamos el subtotal del artículo al acumulador de la factura
+        this.acSubtotal += a.subtotalArticulo();
+    }
+
+    calcularIVA() {
+        return this.acSubtotal * this.ivaPorcentaje;
+    }
+
+    calcularTotal() {
+        return this.acSubtotal + this.calcularIVA();
+    }
+}
+
+// 1. Instanciamos los artículos con nombres en "Strings" (comillas)
+const art1 = new Cl_Articulo("Jabon", 30, 1);
+const art2 = new Cl_Articulo("Crema dental", 25, 2);
+const art3 = new Cl_Articulo("Desodorante", 50, 1);
+const art4 = new Cl_Articulo("Papel", 15, 3);
+const art5 = new Cl_Articulo("Afeitadora", 10, 1);
+
+// 2. Procesamos la factura
+const factura = new Cl_Factura();
+factura.procesarArticulo(art1);
+factura.procesarArticulo(art2);
+factura.procesarArticulo(art3);
+factura.procesarArticulo(art4);
+factura.procesarArticulo(art5);
+
+// 3. Salida por pantalla mejorada
+const salida = document.getElementById("app");
+salida.innerHTML = "<h1>Resultados de Facturación:</h1>";
+salida.innerHTML += `<p>Subtotal ${art1.nombre}: $${art1.subtotalArticulo()}</p>`;
+salida.innerHTML += `<p>Subtotal ${art2.nombre}: $${art2.subtotalArticulo()}</p>`;
+salida.innerHTML += `<p>Subtotal ${art3.nombre}: $${art3.subtotalArticulo()}</p>`;
+salida.innerHTML += `<p>Subtotal ${art4.nombre}: $${art4.subtotalArticulo()}</p>`;
+salida.innerHTML += `<p>Subtotal ${art5.nombre}: $${art5.subtotalArticulo()}</p>`;
+
+salida.innerHTML += "<hr>";
+salida.innerHTML += `<p><strong>Subtotal Factura:</strong> $${factura.acSubtotal}</p>`;
+salida.innerHTML += `<p><strong>IVA (16%):</strong> $${factura.calcularIVA().toFixed(2)}</p>`;
+salida.innerHTML += `<p><strong>TOTAL A PAGAR:</strong> $${factura.calcularTotal().toFixed(2)}</p>`;
+
  
-
-
-Articulo1 = new Cl_Articulo(Articulo1, 30, 1)
-Articulo2 = new Cl_Articulo(Articulo1, 25, 2)
-Articulo3 = new Cl_Articulo(Articulo1, 50, 1)
-Articulo4 = new Cl_Articulo(Articulo3, 15, 3)
-Articulo5 = new Cl_Articulo(Articulo1, 10, 1)
-
-
-Factura = new Cl_Factura()
-Factura.procesarArticulo(Articulo1)
-Factura.procesarArticulo(Articulo2)
-Factura.procesarArticulo(Articulo3)
-Factura.procesarArticulo(Articulo4)
-Factura.procesarArticulo(Articulo5)
-
-salida = document.getElementById("app")
-salida.innerHTML = "Resultados:"
-
-salida.innerHTML += `<br>`
-salida.innerHTML += `<br>subtotal Jabon ${Articulo1.subtotalArticulo()}`
-salida.innerHTML += `<br>subtotal Cremadental ${Articulo2.subtotalArticulo()}`
-salida.innerHTML += `<br>subtotal Desodorante ${Articulo3.subtotalArticulo()}`
-salida.innerHTML += `<br>subtotal Papel ${Articulo4.subtotalArticulo()}`
-salida.innerHTML += `<br>subtotal Afeitadora ${Articulo5.subtotalArticulo()}`
-salida.innerHTML += `<br>`
-salida.innerHTML += `<br>subtotal de Factura ${Factura.subtotalFactura()}`
-salida.innerHTML += `<br>IVA a Cobrar ${Factura.totalfacutaIVA()}`
-salida.innerHTML += `<br>Total a Pagar ${Factura.totalFact()}`
-
-
-
